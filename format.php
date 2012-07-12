@@ -32,7 +32,12 @@ require_once($CFG->libdir.'/completionlib.php');
 
 //import jQuery, which we use for searching, and the search script
 $PAGE->requires->js('/course/format/topsearch/javascript/jquery-1.7.2.min.js');
+$PAGE->requires->js('/course/format/topsearch/javascript/jquery.scrollTo-1.4.2-min.js');
 $PAGE->requires->js('/course/format/topsearch/javascript/topsearch.js');
+
+$PAGE->requires->js('/course/format/topsearch/javascript/jquery-ui-1.8.21.custom.min.js');
+
+echo html_writer::empty_tag('link', array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => $CFG->wwwroot.'/course/format/topsearch/css/smoothness/jquery-ui-1.8.21.custom.css'));
 
 $topic = optional_param('topic', -1, PARAM_INT);
 
