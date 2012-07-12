@@ -86,6 +86,7 @@ function showMatchingSections(query)
     parents.find(".activity").show();
 
     //add the selectTarget class to the first matching element
+    $('.selectTarget').removeClass('selectTarget');
     parents.find(".activity").first().addClass('selectTarget');
 
 }
@@ -96,6 +97,7 @@ function showMatchingActivities(query)
     var items = $(".activity:Contains('" + query + "')");
 
     //add the selectTarget class to the first matching element
+    $('.selectTarget').removeClass('selectTarget');
     items.first().addClass('selectTarget');
 
     //and show their parents
