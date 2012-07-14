@@ -103,3 +103,94 @@ function callback_topsearch_ajax_support() {
 function callback_topsearch_get_section_url($courseid, $sectionnum) {
     return new moodle_url('/course/view.php', array('id' => $courseid, 'topic' => $sectionnum));
 }
+
+/**
+ * Prints the menus to add activities and resources.
+ */
+function ajax_section_add_menus($course, $modnames, $menuName='addContextMenu', $return=false) {
+    global $CFG, $OUTPUT;
+
+    $section = 0;
+
+    //if the user can't manage activities, don't create the ajax menu
+    if (!has_capability('moodle/course:manageactivities', get_context_instance(CONTEXT_COURSE, $course->id))) 
+        return false;
+    
+    //start empty arrays of resources and activities
+    $resource_objects = array();
+    $activity_objects = array();
+
+    //and iterate through each module name provided 
+    foreach($modnames as $modname=>$modnamestr) 
+    {
+
+        //if the course is not allowed the given module, skip it
+        if (!course_allowed_module($course, $modname)) 
+            continue;
+        
+
+        //try to get the library file for each module
+        $libfile = "$CFG->dirroot/mod/$modname/lib.php";
+
+        //if we can't, continue without throwing an error
+        if (!file_exists($libfile))
+            continue;
+        
+        //otherwise, include the relevant library
+        include_once($libfile);
+        $gettypesfunc =  $modname.'_get_types';
+
+        //only allow modules which _don't_ have subtypes to be added to the quick menu
+        if (!function_exists($gettypesfunc)) 
+        {
+            //get the "archetype" for the module
+            $archetype = plugin_supports('mod', $modname, FEATURE_MOD_ARCHETYPE, MOD_ARCHETYPE_OTHER);
+
+            //if the module describes itself as a resource, add it to the resources cluster
+            if($archetype == MOD_ARCHETYPE_RESOURCE)
+                $resource_objects[] = (object)array('name' => $modnamestr, 'icon' => $modname, 'shortname' => $modname);
+            else
+                $activity_objects[] = (object)array('name' => $modnamestr, 'icon' => $modname, 'shortname' => $modname);
+
+           
+        }
+    }
+
+    //start a new HTML5 context menu
+    $output = html_writer::start_tag('menu', array('type' => 'context', 'id' => $menuName, 'style' => 'display:none'));
+
+
+    //populate it with our resources
+    if(!empty($resource_objects))
+    { 
+        foreach($resource_objects as $resource)
+        {
+            $output .= html_writer::start_tag('command', array('label' => $resource->name, 'onclick' => 'handleMenu(\''.$resource->shortname.'\', this);', 'icon' => $resource->icon));
+            $output .= html_writer::end_tag('command');
+        }
+    }
+
+    //add a divider between the resources and assignments
+    $output .= html_writer::empty_tag('hr');
+
+    //and populate it with our activities
+    if(!empty($activity_objects))
+    { 
+        foreach($activity_objects as $resource)
+        {
+            $output .= html_writer::start_tag('command', array('label' => $resource->name, 'onclick' => 'handleMenu(\''.$resource->shortname.'\', this);', 'icon' => $resource->icon));
+            $output .= html_writer::end_tag('command');
+        }
+    }
+
+    //end the menu
+    $output .= html_writer::end_tag('menu');
+
+    //if the return flag is set, return the output; otherwise, echo it directly 
+    if ($return) 
+        return $output;
+    else 
+        echo $output;
+}
+
+

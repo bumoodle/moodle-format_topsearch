@@ -33,7 +33,11 @@ require_once($CFG->libdir.'/completionlib.php');
 //import jQuery, which we use for searching, and the search script
 $PAGE->requires->js('/course/format/topsearch/javascript/jquery-1.7.2.min.js');
 $PAGE->requires->js('/course/format/topsearch/javascript/jquery.scrollTo-1.4.2-min.js');
+$PAGE->requires->js('/course/format/topsearch/javascript/jquery.contextMenu.js');
 $PAGE->requires->js('/course/format/topsearch/javascript/topsearch.js');
+$PAGE->requires->js('/course/format/topsearch/javascript/quickedit.js');
+$PAGE->requires->js_init_call('set_course_id', array($course->id));
+
 
 $topic = optional_param('topic', -1, PARAM_INT);
 
@@ -133,6 +137,8 @@ if ($thissection->summary or $thissection->sequence or $PAGE->user_is_editing())
         print_section_add_menus($course, $section, $modnames);
     }
 
+    ajax_section_add_menus($course, $modnames);
+
     echo '</div>';
     echo "</li>\n";
 }
@@ -195,8 +201,10 @@ while ($section <= $course->numsections) {
                  '<img src="'.$OUTPUT->pix_url('i/all') . '" class="icon" alt="'.$strshowalltopics.'" /></a><br />';
         } else {
             $strshowonlytopic = get_string("showonlytopic", "", $section);
-            echo '<a href="view.php?id='.$course->id.'&amp;topic='.$section.'" title="'.$strshowonlytopic.'">'.
-                 '<img src="'.$OUTPUT->pix_url('i/one') . '" class="icon" alt="'.$strshowonlytopic.'" /></a><br />';
+            echo '<a href="view.php?id='.$course->id.'&amp;topic='.$section.'" title="'.$strshowonlytopic.'">'.'<img src="'.$OUTPUT->pix_url('i/one') . '" class="icon" alt="'.$strshowonlytopic.'" /></a><br />';
+
+            if (has_capability('moodle/course:manageactivities', get_context_instance(CONTEXT_COURSE, $course->id))) 
+                echo '<img src="'.$OUTPUT->pix_url('add', 'format_topsearch').'" class="addElementContext icon" id="add-'.$section.'"><br/>';
         }
 
         if ($PAGE->user_is_editing() && has_capability('moodle/course:update', get_context_instance(CONTEXT_COURSE, $course->id))) {
