@@ -21,12 +21,14 @@ function hide_all()
     $('.activity:visible:not(:animated)').hide();
     $('.section:visible:not(:animated)').hide();
     $('.activity').removeClass('selectTarget');
+    $('.summary').hide();
 }
 
 function unhide_all()
 {
     $('.activity:hidden:not(:animated):hidden').fadeIn('fast');
     $('.section:hidden:not(:animated):hidden').fadeIn('fast');
+    $('.summary').show();
     $('.activity').removeClass('selectTarget');
 }
 
@@ -71,7 +73,7 @@ function search_event_handler()
 function showMatchingSections(query)
 {
     //repeat, with the section names
-    var items = $(".sectionname:Contains('" + query + "')");
+    var items = $(".sectionname:Contains('" + query + "'), .left:Contains('" + query + "')");
 
     //find their parent sections
     parents = items.parents(".section");
@@ -86,8 +88,7 @@ function showMatchingSections(query)
     parents.find(".activity").show();
 
     //add the selectTarget class to the first matching element
-    $('.selectTarget').removeClass('selectTarget');
-    parents.find(".activity").first().addClass('selectTarget');
+    //parents.find(".activity").first().addClass('selectTarget');
 
 }
 
@@ -97,7 +98,7 @@ function showMatchingActivities(query)
     var items = $(".activity:Contains('" + query + "')");
 
     //add the selectTarget class to the first matching element
-    $('.selectTarget').removeClass('selectTarget');
+    //$('.selectTarget').removeClass('selectTarget');
     items.first().addClass('selectTarget');
 
     //and show their parents
@@ -119,10 +120,7 @@ function do_search()
     if(query == last_search)
         return;
 
-    //and keep track of the current search
-    last_search = query;
-
-    //hide all sections and activities, as a default
+   //hide all sections and activities, as a default
     hide_all();
 
     //remove all quotes
@@ -133,6 +131,9 @@ function do_search()
 
     //show all _sections_ which match the query as well
     showMatchingSections(query);
+
+    //and keep track of the current search
+    last_search = query;
 
 
 }

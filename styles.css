@@ -211,7 +211,13 @@
     font-size: 12px;
 } 
 
-.section content
+.path-course-view .section .img-text
 {
-    padding-bottom: 5px;
+    padding-bottom: 10px;
+}
+
+.path-course-view .left.side
+{
+    font-family: Oswald;
+    color: #006a4e;
 }
