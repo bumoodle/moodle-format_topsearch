@@ -186,3 +186,32 @@
 .context-menu-accesskey {
     text-decoration: underline;
 }
+
+
+.section_add_menus
+{
+    margin-top: 0px !important;
+}
+
+.section_add_menus .horizontal
+{
+    margin-left: 40px;
+    margin-right: 40px;
+    border-top: 1px solid #ccc;
+    background-color: #fafafa;
+}
+
+.section_add_menus .iconhelp
+{
+    display: none;
+}
+
+.section_add_menus .menujump
+{
+    font-size: 12px;
+} 
+
+.section content
+{
+    padding-bottom: 5px;
+}

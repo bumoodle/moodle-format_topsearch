@@ -10,7 +10,6 @@ function rememberCaller(item)
 {
     cid = item.$trigger[0].id;
     caller = cid.substring(4);
-    console.log(caller);
 }
 
 function handleMenu(item)

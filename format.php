@@ -133,13 +133,14 @@ if ($thissection->summary or $thissection->sequence or $PAGE->user_is_editing())
 
     print_section($course, $thissection, $mods, $modnamesused);
 
+    ajax_section_add_menus($course, $modnames);
+
+    echo '</div>';
+
     if ($PAGE->user_is_editing()) {
         print_section_add_menus($course, $section, $modnames);
     }
 
-    ajax_section_add_menus($course, $modnames);
-
-    echo '</div>';
     echo "</li>\n";
 }
 
@@ -260,13 +261,17 @@ while ($section <= $course->numsections) {
             echo '</div>';
 
             print_section($course, $thissection, $mods, $modnamesused);
-            echo '<br />';
-            if ($PAGE->user_is_editing()) {
+            
+        }
+        //end the section body
+        echo '</div>';
+        
+        
+        if ($PAGE->user_is_editing()) {
                 print_section_add_menus($course, $section, $modnames);
             }
-        }
-
-        echo '</div>';
+        
+        //end the section
         echo "</li>\n";
     }
 
