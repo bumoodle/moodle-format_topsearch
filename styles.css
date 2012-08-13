@@ -5,9 +5,17 @@
 .course-content ul.topics li.section .right {width:40px;float:right;text-align:center;}
 .jumpmenu {text-align:center;}
 
+#topicsearchsizer
+{
+    height: 36px;
+}
 
 #topicsearch
 {
+    /** This is hidden by default; it's unhidden automatically by JS. 
+     *  This allows for progressive enhancement. */
+    display: none;
+
     /** fix for box sizing on chrome */
     box-sizing: border-box;
 
@@ -25,8 +33,6 @@
     background-image: url([[pix:format_topsearch|topicsearch]]);
     background-repeat: no-repeat;
     background-position: left center;
-
-
 }
 
 #topicsearch:focus

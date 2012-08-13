@@ -28,15 +28,6 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/filelib.php');
 require_once($CFG->libdir.'/completionlib.php');
 
-//import jQuery, which we use for searching, and the search script
-//TODO: replace with YUI?
-$PAGE->requires->js('/course/format/topsearch/javascript/jquery-1.7.2.min.js');
-$PAGE->requires->js('/course/format/topsearch/javascript/jquery.scrollTo-1.4.2-min.js');
-$PAGE->requires->js('/course/format/topsearch/javascript/jquery.contextMenu.js');
-$PAGE->requires->js('/course/format/topsearch/javascript/topsearch.js');
-$PAGE->requires->js_init_call('set_course_id', array($course->id));
-
-
 // Horrible backwards compatible parameter aliasing..
 if ($topic = optional_param('topic', 0, PARAM_INT)) {
     $url = $PAGE->url;

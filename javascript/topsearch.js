@@ -246,6 +246,9 @@ function topsearch_lightbox(show)
  */
 function init_topsearch()
 {
+
+    $("#topicsearch").show();
+
     //perform searches on changing the handler
     $('#topicsearch').keyup(search_event_handler);   
 
